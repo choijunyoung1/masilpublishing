@@ -59,6 +59,7 @@ flutter:
     - assets/images/menu_service.svg
     - assets/images/menu_share.svg
     - assets/images/menu_logout.svg
+    - assets/images/clickable_btn_arrow.svg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

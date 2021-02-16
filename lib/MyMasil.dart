@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mymasil/alertbox.dart';
 
 class MyMaSil extends StatefulWidget {
   @override
@@ -141,7 +142,11 @@ class AlarmBtnRedDot extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 6),
-          child: SvgPicture.asset('assets/images/clickable_btn_alarm.svg'),
+          child: GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AlertBox()));
+              },
+              child: SvgPicture.asset('assets/images/clickable_btn_alarm.svg')),
         ),
         Positioned(
             right: 11,
