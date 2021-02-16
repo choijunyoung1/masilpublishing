@@ -6,9 +6,37 @@ class MyMaSil extends StatefulWidget {
   _MyMaSilState createState() => _MyMaSilState();
 }
 
+enum MenuType { STORE, CUSTOMER_CENTER, SHARE, LOGOUT }
+
+class MenuItem {
+  final String title;
+  final String image;
+  final MenuType type;
+
+  MenuItem({this.title, this.image, this.type});
+}
+
 class _MyMaSilState extends State<MyMaSil> {
-  final List<String> titles = <String>['스토어', '고객센터', '마실공유', '로그아웃'];
-  final List<String>  leadings= <String>['assets/images/menu_store.svg','assets/images/menu_service.svg','assets/images/menu_share.svg','assets/images/menu_logout.svg'];
+  final List<MenuItem> menuItems = [
+    MenuItem(
+        title: '스토어',
+        image: 'assets/images/menu_store.svg',
+        type: MenuType.STORE),
+    MenuItem(
+      title: '고객센터',
+      image: 'assets/images/menu_service.svg',
+      type: MenuType.CUSTOMER_CENTER,
+    ),
+    MenuItem(
+        title: '마실공유',
+        image: 'assets/images/menu_share.svg',
+        type: MenuType.SHARE),
+    MenuItem(
+        title: '로그아웃',
+        image: 'assets/images/menu_logout.svg',
+        type: MenuType.LOGOUT)
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,10 +45,7 @@ class _MyMaSilState extends State<MyMaSil> {
         title: AppbarTitle(),
         backgroundColor: Colors.white,
         toolbarHeight: 56,
-        actions: <Widget>[
-          Acorn(),
-          AlarmBtnRedDot()
-        ],
+        actions: <Widget>[Acorn(), AlarmBtnRedDot()],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,10 +58,15 @@ class _MyMaSilState extends State<MyMaSil> {
               WatchProfile()
             ],
           ),
-          Container(height: 30,),
-          Divider(thickness: 6,color: Color(0xFFf7f7f7),),
+          Container(
+            height: 30,
+          ),
+          Divider(
+            thickness: 6,
+            color: Color(0xFFf7f7f7),
+          ),
           Container(height: 6),
-         MenuList(titles: titles, leadings: leadings)
+          MenuList(menuItems: menuItems)
         ],
       ),
     );
@@ -63,36 +93,34 @@ class AppbarTitle extends StatelessWidget {
 class MenuList extends StatelessWidget {
   const MenuList({
     Key key,
-    @required this.titles,
-    @required this.leadings,
+    @required this.menuItems,
   }) : super(key: key);
 
-  final List<String> titles;
-  final List<String> leadings;
+  final List<MenuItem> menuItems;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 224,
       child: ListView.builder(
-        itemCount: titles.length,
-        itemBuilder: (BuildContext context,int index){
+        itemCount: menuItems.length,
+        itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            leading: SvgPicture.asset(leadings[index]),
-            title: Container(child: Stack(
+            leading: SvgPicture.asset(menuItems[index].image),
+            title: Container(
+                child: Stack(
               children: [
-                Text(titles[index]),
-                 if(titles[index] == "고객센터")
-                Positioned(
-                  left: 65,
-                  child: Container(
-                    decoration: BoxDecoration(color: Color(0xFFff5055),borderRadius: BorderRadius.circular(6)),
-                    constraints: BoxConstraints(
-                        maxHeight: 4,
-                        maxWidth: 4
+                Text(menuItems[index].title),
+                if (menuItems[index].type == MenuType.CUSTOMER_CENTER)
+                  Positioned(
+                    left: 65,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color(0xFFff5055),
+                          borderRadius: BorderRadius.circular(6)),
+                      constraints: BoxConstraints(maxHeight: 4, maxWidth: 4),
                     ),
-                  ),
-                )
+                  )
               ],
             )),
           );
@@ -116,15 +144,14 @@ class AlarmBtnRedDot extends StatelessWidget {
           child: SvgPicture.asset('assets/images/clickable_btn_alarm.svg'),
         ),
         Positioned(
-          right: 11,
+            right: 11,
             top: 17,
             child: Container(
-          decoration: BoxDecoration(color: Color(0xFFff5055),borderRadius: BorderRadius.circular(6)),
-              constraints: BoxConstraints(
-                minHeight: 4,
-                minWidth: 4
-              ),
-        ))
+              decoration: BoxDecoration(
+                  color: Color(0xFFff5055),
+                  borderRadius: BorderRadius.circular(6)),
+              constraints: BoxConstraints(minHeight: 4, minWidth: 4),
+            ))
       ],
     );
   }
@@ -168,13 +195,16 @@ class WatchProfile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 20, right: 16),
       child: Container(
-        child: Center(child: Text('프로필 보기',style: TextStyle(color: Colors.black),)),
+        child: Center(
+            child: Text(
+          '프로필 보기',
+          style: TextStyle(color: Colors.black),
+        )),
         width: 93,
         height: 40,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(width: 1,color: Color(0xFFeeeeee))
-        ),
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(width: 1, color: Color(0xFFeeeeee))),
       ),
     );
   }
@@ -188,11 +218,20 @@ class ProfileNameAge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 11,top: 20),
+      padding: const EdgeInsets.only(left: 11, top: 20),
       child: Column(
         children: <Widget>[
-          Text('보라빛',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Color(0xFF444444)),),
-          Text('  20대 중반',style: TextStyle(fontSize: 12,color: Color(0xFF444444)),)
+          Text(
+            '보라빛',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF444444)),
+          ),
+          Text(
+            '  20대 중반',
+            style: TextStyle(fontSize: 12, color: Color(0xFF444444)),
+          )
         ],
       ),
     );
@@ -207,12 +246,11 @@ class ProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16,top: 16),
+      padding: const EdgeInsets.only(left: 16, top: 16),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-            border: Border.all(width: 1, color: Color(0xFFeeeeee))
-        ),
+            borderRadius: BorderRadius.circular(100),
+            border: Border.all(width: 1, color: Color(0xFFeeeeee))),
         width: 70,
         height: 70,
         child: CircleAvatar(
